@@ -1,19 +1,16 @@
 package com.example.moiveshub.ym_ui
 
-import android.media.tv.TvContract.Programs.Genres
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.moiveshub.R
-import com.example.moiveshub.my_models.Result
 import com.example.moiveshub.databinding.MoviesListBinding
+import com.example.moiveshub.my_models.Result
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.Locale
 
@@ -60,12 +57,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
             dialog.setCanceledOnTouchOutside(false)
             dialog.setContentView(R.layout.bottom_sheet)
 
-            val textView = dialog.findViewById<TextView>(R.id.textView2)
+            val textView = dialog.findViewById<TextView>(R.id.textView5)
             val imageView = dialog.findViewById<ImageView>(R.id.imageView)
             val rating = dialog.findViewById<TextView>(R.id.BvotingAverage)
             val releaseDate = dialog.findViewById<TextView>(R.id.BreleaseDate)
             val overview = dialog.findViewById<TextView>(R.id.Boverview)
-            val adult = dialog.findViewById<TextView>(R.id.Badult)
             val language = dialog.findViewById<TextView>(R.id.Blanguage)
 
             textView?.text = modelClass.title
@@ -77,10 +73,6 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
             val local = Locale(modelClass.original_language)
             language?.text = local.displayLanguage
 
-            if(modelClass.adult) {
-                adult?.text = "Adult Rated"
-            }
-            else adult?.visibility = View.INVISIBLE
 
             Glide.with(holder.itemView.context)
                 .load("https://image.tmdb.org/t/p/original/" + modelClass.poster_path)
