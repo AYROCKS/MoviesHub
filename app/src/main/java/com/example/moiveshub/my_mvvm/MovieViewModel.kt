@@ -13,6 +13,13 @@ import retrofit2.Response
 
 class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
+
+    fun getData() : LiveData<List<Result>> = repository.getData()
+    fun deleteData(result: Result)  = repository.deleteData(result)
+    fun addData(result: Result) = repository.addData(result)
+
+
+
     private val _movies = MutableLiveData<List<Result>>()
     val movies: LiveData<List<Result>> get() = _movies
     private var page = 1
@@ -81,6 +88,10 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
             }
         }
     }
+
+
+
+
 }
 
 

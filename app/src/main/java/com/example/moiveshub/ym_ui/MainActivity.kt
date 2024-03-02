@@ -13,6 +13,7 @@ import com.example.moiveshub.my_mvvm.MovieViewModel
 import com.example.moiveshub.my_mvvm.MovieViewModelFactory
 import com.example.moiveshub.R
 import com.example.moiveshub.databinding.ActivityMainBinding
+import com.example.moiveshub.my_models.MoviesDatabase
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,10 +27,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-            val retrofit = Services.retrofit().create(MoviesApi::class.java)
-            val repository = MovieRepository(retrofit)
-            val movieViewModelFactory = MovieViewModelFactory(repository)
-            viewModel = ViewModelProvider(this, movieViewModelFactory)[MovieViewModel::class.java]
+        val retrofit = Services.retrofit().create(MoviesApi::class.java)
+
+        val dao = MoviesDatabase.createDb(this).getDao()
+        val repository = MovieRepository(retrofit, dao)
+        val movieViewModelFactory = MovieViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, movieViewModelFactory)[MovieViewModel::class.java]
 
 
         loadFragment(HomeFragment())
