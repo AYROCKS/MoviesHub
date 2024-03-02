@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 data class Result(
     val adult: Boolean,
     val backdrop_path: String,
-    val genre_ids: List<Int>,
     @PrimaryKey
     val id: Int,
     val original_language: String,
@@ -19,5 +18,6 @@ data class Result(
     val title: String,
     val video: Boolean,
     val vote_average: Double,
-    val vote_count: Int
+    val vote_count: Int,
+    var saved : Boolean = false
 )

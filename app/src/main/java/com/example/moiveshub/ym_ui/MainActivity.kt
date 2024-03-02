@@ -13,6 +13,7 @@ import com.example.moiveshub.my_mvvm.MovieViewModel
 import com.example.moiveshub.my_mvvm.MovieViewModelFactory
 import com.example.moiveshub.R
 import com.example.moiveshub.databinding.ActivityMainBinding
+import com.example.moiveshub.my_fragments.SavedFragment
 import com.example.moiveshub.my_models.MoviesDatabase
 
 
@@ -41,9 +42,10 @@ class MainActivity : AppCompatActivity() {
 
             when (item.itemId) {
 
-                R.id.Nhome -> loadFragment(HomeFragment())
-
+                R.id.NSaved -> loadFragment(SavedFragment())
                 R.id.NSearch -> loadFragment(SearchFragment())
+
+                else  -> loadFragment(HomeFragment())
 
             }
             true

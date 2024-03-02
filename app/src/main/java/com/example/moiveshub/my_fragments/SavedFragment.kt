@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moiveshub.R
 import com.example.moiveshub.databinding.FragmentSavedBinding
@@ -33,11 +35,15 @@ class SavedFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[MovieViewModel::class.java]
 
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = GridLayoutManager(context,2, GridLayoutManager.VERTICAL, false)
         binding.savedRecyclerview.layoutManager = layoutManager
 
-        val adapter = MovieAdapter()
+        val adapter = MovieAdapter(viewModel)
         binding.savedRecyclerview.adapter = adapter
+
+        viewModel.getData().observe(viewLifecycleOwner, Observer {
+            adapter.differ.submitList(it)
+        })
 
 
     }

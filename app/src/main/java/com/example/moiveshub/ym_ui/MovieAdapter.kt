@@ -1,9 +1,14 @@
 package com.example.moiveshub.ym_ui
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,10 +16,13 @@ import com.bumptech.glide.Glide
 import com.example.moiveshub.R
 import com.example.moiveshub.databinding.MoviesListBinding
 import com.example.moiveshub.my_models.Result
+import com.example.moiveshub.my_mvvm.MovieViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.Locale
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
+class MovieAdapter(val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
+
+
 
     private val diffUtil = object : DiffUtil.ItemCallback<Result>() {
 
@@ -46,11 +54,13 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
         val pos = holder.adapterPosition
         val modelClass = differ.currentList[pos]
 
+
         Glide.with(holder.itemView.context)
             .load("https://image.tmdb.org/t/p/original/" + modelClass.poster_path)
             .into(holder.binding.Rimage)
 
         holder.binding.Rtitle.text = modelClass.title
+
 
         holder.itemView.setOnClickListener {
             val dialog = BottomSheetDialog(holder.itemView.context)
@@ -63,12 +73,12 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
             val releaseDate = dialog.findViewById<TextView>(R.id.BreleaseDate)
             val overview = dialog.findViewById<TextView>(R.id.Boverview)
             val language = dialog.findViewById<TextView>(R.id.Blanguage)
+            val button = dialog.findViewById<ImageButton>(R.id.Bsaved)
 
             textView?.text = modelClass.title
             rating?.text =  modelClass.vote_average.toString()
             releaseDate?.text = modelClass.release_date
             overview?.text = modelClass.overview
-
 
             val local = Locale(modelClass.original_language)
             language?.text = local.displayLanguage
@@ -77,6 +87,15 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
             Glide.with(holder.itemView.context)
                 .load("https://image.tmdb.org/t/p/original/" + modelClass.poster_path)
                 .into(imageView!!)
+
+
+            button?.setOnClickListener {
+
+                modelClass.saved = true
+
+
+                viewModel.addData(modelClass)
+            }
 
             dialog.show()
 

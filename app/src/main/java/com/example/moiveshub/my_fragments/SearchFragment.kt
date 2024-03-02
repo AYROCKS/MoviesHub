@@ -41,7 +41,7 @@ class SearchFragment : Fragment() {
         val linearLayoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
         binding.searchRecyclerView.layoutManager = linearLayoutManager
 
-        val adapter = MovieAdapter()
+        val adapter = MovieAdapter(viewModel)
         binding.searchRecyclerView.adapter = adapter
 
 
