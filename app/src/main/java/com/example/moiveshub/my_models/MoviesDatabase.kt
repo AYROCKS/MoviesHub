@@ -13,7 +13,6 @@ abstract class MoviesDatabase : RoomDatabase() {
     companion object{
         private var db: MoviesDatabase? = null
 
-
         fun createDb(context: Context) : MoviesDatabase {
             if (db == null) {
 

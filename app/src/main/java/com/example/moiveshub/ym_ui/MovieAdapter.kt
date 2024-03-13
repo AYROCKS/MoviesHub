@@ -7,6 +7,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,7 @@ import com.example.moiveshub.my_mvvm.MovieViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.Locale
 
-class MovieAdapter(val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
+class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
 
 
 
@@ -72,6 +74,7 @@ class MovieAdapter(val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAd
             val overview = dialog.findViewById<TextView>(R.id.Boverview)
             val language = dialog.findViewById<TextView>(R.id.Blanguage)
             val button = dialog.findViewById<ImageButton>(R.id.Bsaved)
+            val delButton = dialog.findViewById<ImageButton>(R.id.Bdelete)
 
             textView?.text = modelClass.title
             rating?.text =  modelClass.vote_average.toString()
@@ -87,15 +90,32 @@ class MovieAdapter(val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAd
                 .into(imageView!!)
 
 
+            val viewModel = ViewModelProvider(holder.itemView.context as ViewModelStoreOwner)[MovieViewModel::class.java]
+
             viewModel.isSaved(modelClass.id).observe(holder.itemView.context as LifecycleOwner) { isSaved ->
                 // Show/hide the save button based on whether the movie is already saved
-                button?.visibility = if (isSaved) View.GONE else View.VISIBLE
+                if (isSaved) {
+
+                    button?.visibility = View.GONE
+
+                    delButton?.setOnClickListener {
+                        viewModel.deleteData(modelClass)
+                    }
+
+                    }
+
+                else{
+
+                    delButton?.visibility = View.GONE
+
+                    button?.setOnClickListener {
+                        viewModel.addData(modelClass)
+                    }
+
+                }
+
             }
 
-            button?.setOnClickListener {
-
-                viewModel.addData(modelClass)
-            }
 
             dialog.show()
 

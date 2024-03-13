@@ -46,9 +46,9 @@ class HomeFragment : Fragment() {
         val popularManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         binding.recyclerView.layoutManager = popularManager
 
-        val adapter = MovieAdapter(viewModel)
-        val latestAdapter = MovieAdapter(viewModel)
-        val popularAdapter = MovieAdapter(viewModel)
+        val adapter = MovieAdapter()
+        val latestAdapter = MovieAdapter()
+        val popularAdapter = MovieAdapter()
         binding.homeRecycler.adapter = adapter
         binding.recyclerView2.adapter = latestAdapter
         binding.recyclerView.adapter = popularAdapter
