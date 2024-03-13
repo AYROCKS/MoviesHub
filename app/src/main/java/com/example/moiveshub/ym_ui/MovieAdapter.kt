@@ -1,14 +1,12 @@
 package com.example.moiveshub.ym_ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -89,10 +87,12 @@ class MovieAdapter(val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAd
                 .into(imageView!!)
 
 
+            viewModel.isSaved(modelClass.id).observe(holder.itemView.context as LifecycleOwner) { isSaved ->
+                // Show/hide the save button based on whether the movie is already saved
+                button?.visibility = if (isSaved) View.GONE else View.VISIBLE
+            }
+
             button?.setOnClickListener {
-
-                modelClass.saved = true
-
 
                 viewModel.addData(modelClass)
             }

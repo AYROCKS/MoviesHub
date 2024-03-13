@@ -17,4 +17,8 @@ interface Dao {
 
     @Delete
     fun deleteMovies(result: Result)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM movies_database WHERE id = :id)")
+    fun isSaved(id : Int) : LiveData<Boolean>
+
 }

@@ -18,6 +18,7 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
     fun deleteData(result: Result)  = repository.deleteData(result)
     fun addData(result: Result) = repository.addData(result)
 
+    fun isSaved(id : Int)= repository.isSaved(id)
 
 
     private val _movies = MutableLiveData<List<Result>>()

@@ -1,5 +1,6 @@
 package com.example.moiveshub.my_models
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,6 +9,7 @@ data class Result(
     val adult: Boolean,
     val backdrop_path: String,
     @PrimaryKey
+    @ColumnInfo(name = "id")
     val id: Int,
     val original_language: String,
     val original_title: String,

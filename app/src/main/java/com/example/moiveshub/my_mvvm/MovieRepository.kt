@@ -25,4 +25,6 @@ class MovieRepository(private val moviesApi: MoviesApi, private val moviesDataba
    fun deleteData(result: Result) = moviesDatabase.deleteMovies(result)
 
    fun addData(result: Result) = moviesDatabase.addMovie(result)
+
+   fun isSaved(id : Int) = moviesDatabase.isSaved(id)
 }
