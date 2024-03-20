@@ -9,14 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.example.moiveshub.databinding.FragmentSearchBinding
 import com.example.moiveshub.my_mvvm.MovieViewModel
 import com.example.moiveshub.ym_ui.MovieAdapter
-import com.example.moiveshub.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
 

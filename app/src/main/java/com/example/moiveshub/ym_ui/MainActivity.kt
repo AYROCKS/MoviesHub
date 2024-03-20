@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, movieViewModelFactory)[MovieViewModel::class.java]
 
 
-        loadFragment(HomeFragment())
+        if (savedInstanceState == null) {
+            loadFragment(HomeFragment())
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
 
@@ -44,12 +46,13 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.NSaved -> loadFragment(SavedFragment())
                 R.id.NSearch -> loadFragment(SearchFragment())
-
-                else  -> loadFragment(HomeFragment())
+                R.id.Nhome-> loadFragment(HomeFragment())
 
             }
             true
         }
+
+
 
     }
 

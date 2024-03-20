@@ -23,7 +23,6 @@ import java.util.Locale
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
 
 
-
     private val diffUtil = object : DiffUtil.ItemCallback<Result>() {
 
         override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
@@ -67,54 +66,46 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyAdapter>() {
             dialog.setCanceledOnTouchOutside(false)
             dialog.setContentView(R.layout.bottom_sheet)
 
-            val textView = dialog.findViewById<TextView>(R.id.textView5)
-            val imageView = dialog.findViewById<ImageView>(R.id.imageView)
-            val rating = dialog.findViewById<TextView>(R.id.BvotingAverage)
-            val releaseDate = dialog.findViewById<TextView>(R.id.BreleaseDate)
-            val overview = dialog.findViewById<TextView>(R.id.Boverview)
-            val language = dialog.findViewById<TextView>(R.id.Blanguage)
-            val button = dialog.findViewById<ImageButton>(R.id.Bsaved)
-            val delButton = dialog.findViewById<ImageButton>(R.id.Bdelete)
+            val textView = dialog.findViewById<TextView>(R.id.textView5)!!
+            val imageView = dialog.findViewById<ImageView>(R.id.imageView)!!
+            val rating = dialog.findViewById<TextView>(R.id.BvotingAverage)!!
+            val releaseDate = dialog.findViewById<TextView>(R.id.BreleaseDate)!!
+            val overview = dialog.findViewById<TextView>(R.id.Boverview)!!
+            val language = dialog.findViewById<TextView>(R.id.Blanguage)!!
+            val button = dialog.findViewById<ImageButton>(R.id.Bsaved)!!
+            val deleteButton = dialog.findViewById<ImageButton>(R.id.Bdelete)!!
 
-            textView?.text = modelClass.title
-            rating?.text =  modelClass.vote_average.toString()
-            releaseDate?.text = modelClass.release_date
-            overview?.text = modelClass.overview
+            textView.text = modelClass.title
+            rating.text = modelClass.vote_average.toString()
+            releaseDate.text = modelClass.release_date
+            overview.text = modelClass.overview
 
             val local = Locale(modelClass.original_language)
-            language?.text = local.displayLanguage
+            language.text = local.displayLanguage
 
 
             Glide.with(holder.itemView.context)
                 .load("https://image.tmdb.org/t/p/original/" + modelClass.poster_path)
-                .into(imageView!!)
+                .into(imageView)
 
 
             val viewModel = ViewModelProvider(holder.itemView.context as ViewModelStoreOwner)[MovieViewModel::class.java]
 
-            viewModel.isSaved(modelClass.id).observe(holder.itemView.context as LifecycleOwner) { isSaved ->
-                // Show/hide the save button based on whether the movie is already saved
-                if (isSaved) {
+            viewModel.isSaved(modelClass.id)
+                .observe(holder.itemView.context as LifecycleOwner) { isSaved ->
 
-                    button?.visibility = View.GONE
+                    if(isSaved) {
+                        button.visibility = View.INVISIBLE
+                        deleteButton.setOnClickListener { viewModel.deleteData(modelClass) }
+                    }
+                    else {
+                        deleteButton.visibility = View.INVISIBLE
+                        button.setOnClickListener { viewModel.addData(modelClass) }
 
-                    delButton?.setOnClickListener {
-                        viewModel.deleteData(modelClass)
                     }
 
-                    }
-
-                else{
-
-                    delButton?.visibility = View.GONE
-
-                    button?.setOnClickListener {
-                        viewModel.addData(modelClass)
-                    }
 
                 }
-
-            }
 
 
             dialog.show()
